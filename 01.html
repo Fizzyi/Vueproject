@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+    创建vue实例,初始化渲染
+    1.准备容器（Vue所管理的范围）
+    2.引包（开发版本包/升班）
+    3.创建实例
+    4.添加配置项 = 完成渲染B
+ -->
+    <div id="app">
+        <!-- 将来编写一些用于渲染的代码逻辑 -->
+        <p>{{ msg }}</p>
+        <p>{{ age > 18 ? '成年':'未成年' }}</p>
+        <p>
+        <div v-html="url"></div>
+        </p>
+        <button @click="fn()">按钮</button>
+    </div>
+
+    <div id="book">
+        <li v-for="(item,index) in bookList" ::key={{item.id}}> {{ item.name }} {{ item.author}} <button
+                v-on:click=del(index)>删除</button></li>
+    </div>
+
+    <!-- 引入开发版本的包 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+
+    <script>
+        // 一旦引入 VueJS核心包，在全局环境，就有了vue构造函数
+        const app = new Vue({
+            // 通过el配置选择器，指定 Vue 管理的是哪个盒子  
+            el: '#app',
+            // 通过data提供数据
+            data: {
+                msg: 'hello 黑马',
+                age: 18,
+                url: `<a href="http://www.baidu.com"黑马程序员</a>`
+            },
+            // 提供处理函数
+            methods: {
+                fn() {
+                    console.log(this.age)
+                }
+            },
+            // v-show 底层原理：切换css的display：none来控制显示隐藏，频繁切换显示隐藏的场景
+            // v-if 底层原理：根据 判断条件 控制元素的创建和移除（条件渲染），不频繁切换显示隐藏的场景
+
+            // v-on 注册事件 = 添加监听 + 提供处理逻辑
+            // v-on:事件名 = "内联语句"   v-on:事件名 = "methods中的函数名"
+            // @事件名
+
+            // v-bind 动态设置html的标签属性  v-bind:属性名="表达式"
+            // :属性名
+
+            // v-for = "(item,index) in 数组" :key="唯一值" item 每一项，index 下标 key的值只能是字符串或数字类型，必须具有唯一性，不能使用index作为key，会变化。
+            // v-for = "item in 数组"
+
+            // v-model="变量名" 让数据和视图形成双向数据绑定 可以快速获取或者设置表单元素的内容
+        })
+
+        const app1 = new Vue({
+            el: '#book',
+            data: {
+                bookList: [
+                    { id: 1, name: '《红楼梦》', author: "曹雪芹" },
+                    { id: 2, name: '《西游记》', author: "吴承恩" },
+                    { id: 3, name: '《水浒传》', author: "施耐庵" },
+                    { id: 4, name: '《三国演义》', author: "罗贯中" },
+
+                ]
+            },
+            methods: {
+                del(index) {
+                    console.log("删除的书本的下标为", index)
+                    this.bookList.splice(index, 1)
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>
