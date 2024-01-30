@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import HmButton from './components/HmButton'
+import './styles/base.css' // css 样式重置
+import './styles/common.css' // 公共全局样式
+import './assets/iconfont/iconfont.css' // 字体图标的样式
+import BaseGoodsItem from './components/BaseGoodsItem.vue'
+import BaseBrandItem from './components/BaseBrandItem.vue'
+import BaseTopiceItem from './components/BaseTopicItem.vue'
 Vue.config.productionTip = false
-
-// 进行全局注册
-Vue.component("HmButton", HmButton)
-
+Vue.component("BaseGoodsItem", BaseGoodsItem)
+Vue.component("BaseBrandItem", BaseBrandItem)
+Vue.component("BaseTopiceItem", BaseTopiceItem)
 new Vue({
   render: h => h(App),
 }).$mount('#app')

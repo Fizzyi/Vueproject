@@ -1,33 +1,42 @@
 <template>
   <div class="App">
-    <!-- 头部组件 -->
-    <HmHeader></HmHeader>
-    <!-- 主体组件 -->
-    <HmMain></HmMain>
-    <!-- 底部组件 -->
-    <HmFooter></HmFooter>
+    <!-- 快捷链接 -->
+    <XtxShortCut></XtxShortCut>
+    <!-- 顶部导航 -->
+    <XtxHeaderNav></XtxHeaderNav>
+    <!-- 轮播区域 -->
+    <XtxBanner></XtxBanner>
+    <!-- 新鲜好物 -->
+    <XtxNewGoods></XtxNewGoods>
+    <!-- 热门品牌 -->
+    <XtxHotBrand></XtxHotBrand>
+    <!-- 最新专题 -->
+    <XtxTopic></XtxTopic>
+    <!-- 版权底部 -->
+    <XtxFooter></XtxFooter>
   </div>
 </template>
 
 <script>
-import HmFooter from './components/HmFooter.vue';
-import HmHeader from './components/HmHeader.vue';
-import HmMain from './components/HmMain.vue';
+import XtxShortCut from "./components/XtxShortCut.vue"
+import XtxHeaderNav from "./components/XtxHeaderNav.vue"
+import XtxBanner from "./components/XtxBanner.vue"
+import XtxNewGoods from "./components/XtxNewGoods.vue"
+import XtxHotBrand from "./components/XtxHotBrand.vue"
+import XtxTopic from "./components/XtxTopic.vue"
+import XtxFooter from "./components/XtxFooter.vue"
+
 export default {
   components: {
-    HmHeader,
-    HmFooter,
-    HmMain,
+    XtxShortCut,
+    XtxHeaderNav,
+    XtxBanner,
+    XtxNewGoods,
+    XtxHotBrand,
+    XtxTopic,
+    XtxFooter,
   }
 }
 </script>
 
-<style>
-.App {
-  width: 600px;
-  height: 700px;
-  background-color: #87ceeb;
-  margin: 0 auto;
-  padding: 20px;
-}
-</style>
+<style></style>
