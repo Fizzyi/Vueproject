@@ -12,7 +12,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .base-brand-item {
     width: 244px;
     height: 306px;
