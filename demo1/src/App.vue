@@ -1,49 +1,114 @@
 <template>
-  <!-- 主体区域 -->
-  <section id="app">
-    <TodoHeader @addNewTodo="addNewTodo"></TodoHeader>
-    <TodoMain :list="list" @del="del"></TodoMain>
-    <TodoFooter :list="list" @clean="clean"></TodoFooter>
-  </section>
+  <div class="box" v-loading="isLoading">
+    <ul>
+      <li v-for="item in list" :key="item.id" class="news">
+        <div class="left">
+          <div class="title">{{ item.title }}</div>
+          <div class="info">
+            <span>{{ item.source }}</span>
+            <span>{{ item.time }}</span>
+          </div>
+        </div>
+
+        <div class="right">
+          <img :src="item.img" alt="">
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import TodoHeader from './components/TodoHeader.vue'
-import TodoFooter from './components/TodoFooter.vue'
-import TodoMain from './components/TodoMain.vue'
+// 安装axios =>  yarn add axios
+import axios from 'axios'
 
-
+// 接口地址：http://hmajax.itheima.net/api/news
+// 请求方式：get
 export default {
-  // 1. 提供数据 -》 提供在公共的父组件 App.vue
-  // 2. 通过父传子， 将数据传递给 TodoMain
-  // 3. 利用 v-for渲染
   data() {
     return {
-      list: [
-        { id: 1, name: '打篮球' },
-        { id: 2, name: '看电影' },
-        { id: 3, name: '逛街' }
-      ],
+      list: [],
+      isLoading: true
     }
   },
-  components: {
-    TodoFooter,
-    TodoHeader,
-    TodoMain,
+  async created() {
+    // 1. 发送请求获取数据
+    const res = await axios.get('http://hmajax.itheima.net/api/news')
+    setTimeout(() => {
+      // 2. 更新到 list 中，用于页面渲染 v-for
+      this.list = res.data.data
+      this.isLoading = false
+    }, 2000)
   },
-  methods: {
-    addNewTodo(newValue) {
-      this.list.unshift({ id: +new Date(), name: newValue })
-      console.log(newValue)
-    },
-    del(id) {
-      this.list = this.list.filter(item => item.id !== id)
-    },
-    clean() {
-      this.list = []
+  directives: {
+    loading: {
+      inserted(el, binding) {
+        binding.value ? el.classList.add('loading') : el.classList.remove('loading')
+      },
+      update(el, binding) {
+        binding.value ? el.classList.add('loading') : el.classList.remove('loading')
+      }
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.loading:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff url('./loading.gif') no-repeat center;
+}
+
+.box {
+  width: 800px;
+  min-height: 500px;
+  border: 3px solid orange;
+  border-radius: 5px;
+  position: relative;
+}
+
+.news {
+  display: flex;
+  height: 120px;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px 0;
+  cursor: pointer;
+}
+
+.news .left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+
+.news .left .title {
+  font-size: 20px;
+}
+
+.news .left .info {
+  color: #999999;
+}
+
+.news .left .info span {
+  margin-right: 20px;
+}
+
+.news .right {
+  width: 160px;
+  height: 120px;
+}
+
+.news .right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>

@@ -71,3 +71,35 @@ this.$nextTick(() => {
     执行函数
 })
 ```
+
+# 自定义指令
+封装一些dom操作，扩展额外功能。
+```js
+// 全局注册
+Vue.directive('指令名',{
+    "inserted"(el){ // inserted会在 指令所在的元素，被插入到页面时触发
+        // 可以对el标签，扩展额外的功能 el就是指令所绑定的元素
+        el.focus()
+    }
+})
+
+// 局部注册
+directives:{
+    "指令名":{
+        inserted(el,binding){
+            el.style.color = binding.value // 获取指令的值
+            el.focus()
+        },
+        // update 指令的值修改的时候出发，提供值变化后，dom更新逻辑
+        updated(el,binding){
+            el.style.color = binding.value
+        }
+    }
+}
+
+// 使用
+<input v-指令名 type='text'>
+
+
+
+```
