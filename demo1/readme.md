@@ -56,3 +56,18 @@ props : {
 }
 
 ```
+
+# v-model 原理
+本质上是个语法糖，是 value属性和input事件的合写。
+
+# .sync 修饰符
+
+# $nextTick
+vue是异步更新DOM的。
+
+等DOM更新后，才会触发执行此方法里的函数体
+```
+this.$nextTick(() => {
+    执行函数
+})
+```
