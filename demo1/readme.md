@@ -103,3 +103,44 @@ directives:{
 
 
 ```
+
+
+# 插槽
+基本语法
+
+1.组件内需要定制的结构部分，改用<slot></slot>站位。
+
+2.使用组件时，<MyDialog></MyDialog>标签内部，传入结构替换slot
+
+## 后备内容（默认值）
+在slot标签内，放置内容，如果不传，则显示默认内容。
+
+## 具名插槽
+一个组件内有多处结构，需要外部传入标签，进行定制。
+1. 多个slot使用name属性区分名称  <slot name="name1"></slot> <slot name="name2"></slot>
+2. template配合v-slot:名字来分发对应标签
+```js
+<MyDialog>
+<template v-slot:name1>  //可以简化为 #name1
+</template>
+<template v-slot:name2>
+</template>
+</MyDialog>
+```
+
+## 作用域插槽
+作用：给插槽绑定数据，供将来使用组件时使用
+使用步骤
+（1）给slot标签，以 添加属性的方式传值
+（2）所有属性都会被添加到一个对象中
+（3）template中，通过 ‘#插槽名="obj"’ 接收，默认的插槽名为 default
+
+```js
+<slot :row="item" msg="测试文本"></slot>
+
+
+<template #default="obj">
+    <button @click="del(obj.row.id)">删除</button>
+</template>
+
+```
