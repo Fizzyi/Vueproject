@@ -144,3 +144,42 @@ directives:{
 </template>
 
 ```
+
+
+# VueRouter
+
+```js
+import VueRouter from 'vue-router' // 引入
+Vue.use(VueRouter) // VueRouter 初始化注册
+const router = new VueRouter({ //创建路由对象
+  routes: [
+    { path: "/find", component: Find }, // 创建组件，配置规则
+    { path: "/friend", component: Friend },
+    { path: "/my", component: My },
+
+  ]
+})
+new Vue({ 
+  render: h => h(App),
+  router // 注入Vue实例
+}).$mount('#app')
+
+
+<template>
+  <div>
+    <div class="footer_wrap">
+      <a href="#/find">发现音乐</a> // 配置导航
+      <a href="#/my">我的音乐</a>
+      <a href="#/friend">朋友</a>
+    </div>
+    <div class="top">
+      <router-view></router-view> // 配置路由出口 router-view 组件展示的位置
+    </div>
+  </div>
+</template>
+
+
+```
+
+页面组件 页面展示-配合路由使用 放在 src/views文件夹
+复用组件 展示数据-常用于复用 放在 src/components文件夹
