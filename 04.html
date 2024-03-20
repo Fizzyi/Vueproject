@@ -1,0 +1,198 @@
+<!-- 
+    watch侦听器 
+    （1）简单写法 -》 监视简单类型的变化
+    watch:{
+        数据属性名(newValue,oldValue){
+            业务逻辑 或者 异步操作
+        },
+        '对象.属性名'（newValue,oldValue）{
+            业务逻辑 或者 异步操作
+        } 
+    }
+    （2） 完整写法 -》添加额外的配置项，（深度监视复杂类型，立刻执行）
+    watch:{
+        数据属性名:{
+            deep: true, // 深度监视（针对复杂类型）,
+            immediate: true, //是否立刻执行一次handler
+            handler (newValue){
+                业务逻辑 或者 异步操作
+            }
+        }
+    }
+
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./04css/inputnumber.css" />
+    <link rel="stylesheet" href="./04css/index.css" />
+    <title>购物车</title>
+</head>
+
+<body>
+    <div class="app-container" id="app">
+        <!-- 顶部banner -->
+        <div class="banner-box"><img src="http://autumnfish.cn/static/fruit.jpg" alt="" /></div>
+        <!-- 面包屑 -->
+        <div class="breadcrumb">
+            <span>🏠</span>
+            /
+            <span>购物车</span>
+        </div>
+        <!-- 购物车主体 -->
+        <div class="main" v-if="fruitList.length > 0">
+            <div class="table">
+                <!-- 头部 -->
+                <div class="thead">
+                    <div class="tr">
+                        <div class="th">选中</div>
+                        <div class="th th-pic">图片</div>
+                        <div class="th">单价</div>
+                        <div class="th num-th">个数</div>
+                        <div class="th">小计</div>
+                        <div class="th">操作</div>
+                    </div>
+                </div>
+                <!-- 身体 -->
+                <div class="tbody">
+                    <div class="tr" v-for="(item,index) in fruitList" :key="item.id"
+                        :class="{tr:true,active: item.isChecked}">
+                        <div class="td"><input type="checkbox" v-model="item.isChecked" /></div>
+                        <div class="td"><img :src="item.icon" alt="" /></div>
+                        <div class="td">{{item.price}}</div>
+                        <div class="td">
+                            <div class="my-input-number">
+                                <button :disabled="item.num <=1" class="decrease" @click="sub(item.id)"> - </button>
+                                <span class="my-input__inner">{{ item.num }}</span>
+                                <button class="increase" @click="add(item.id)"> + </button>
+                            </div>
+                        </div>
+                        <div class="td">{{ item.price * item.num}}</div>
+                        <div class="td"><button @click="del(item.id)">删除</button></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部 -->
+            <div class="bottom">
+                <!-- 全选 -->
+                <label class="check-all">
+                    <input type="checkbox" v-model="isAll" />
+                    全选
+                </label>
+                <div class="right-box">
+                    <!-- 所有商品总价 -->
+                    <span class="price-box">总价&nbsp;&nbsp;:&nbsp;&nbsp;¥&nbsp;<span
+                            class="price">{{totalPrice}}</span></span>
+                    <!-- 结算按钮 -->
+                    <button class="pay">结算( {{totalCount}} )</button>
+                </div>
+            </div>
+        </div>
+        <!-- 空车 -->
+        <div class="empty" v-else>🛒空空如也</div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // 水果列表
+                fruitList: [
+                    {
+                        id: 1,
+                        icon: 'http://autumnfish.cn/static/火龙果.png',
+                        isChecked: true,
+                        num: 2,
+                        price: 6,
+                    },
+                    {
+                        id: 2,
+                        icon: 'http://autumnfish.cn/static/荔枝.png',
+                        isChecked: false,
+                        num: 7,
+                        price: 20,
+                    },
+                    {
+                        id: 3,
+                        icon: 'http://autumnfish.cn/static/榴莲.png',
+                        isChecked: false,
+                        num: 3,
+                        price: 40,
+                    },
+                    {
+                        id: 4,
+                        icon: 'http://autumnfish.cn/static/鸭梨.png',
+                        isChecked: true,
+                        num: 10,
+                        price: 3,
+                    },
+                    {
+                        id: 5,
+                        icon: 'http://autumnfish.cn/static/樱桃.png',
+                        isChecked: false,
+                        num: 20,
+                        price: 34,
+                    },
+                ],
+            },
+            methods: {
+                del(id) {
+                    this.fruitList = this.fruitList.filter(item => item.id !== id)
+                },
+                add(id) {
+                    //根据ID找到数组中的对应项
+                    const fruit = this.fruitList.find(item => item.id === id)
+                    fruit.num++
+                },
+                sub(id) {
+                    const fruit = this.fruitList.find(item => item.id === id)
+                    fruit.num--
+                }
+            },
+            computed: {
+                // 简单写法
+                // isAll() {
+                //     // 必须所有的小选框都选中，全选按钮才选中 every
+                //     return this.fruitList.every(item => item.isChecked === true)
+                // }
+                // 完整写法
+                isAll: {
+                    get() {
+                        return this.fruitList.every(item => item.isChecked === true)
+                    },
+                    set(value) {
+                        // 基于拿到的布尔值让所有的小选框同步状态
+                        this.fruitList.forEach(item => item.isChecked = value)
+                    }
+                },
+                totalCount() {
+                    return this.fruitList.reduce((sum, item) => {
+                        if (item.isChecked) {
+                            return sum + item.num
+                        } else {
+                            return sum
+                        }
+                    }, 0)
+                },
+                totalPrice() {
+                    return this.fruitList.reduce((sum, item) => {
+                        if (item.isChecked) {
+                            return sum + item.num * item.price
+                        } else {
+                            return sum
+                        }
+                    }, 0)
+                }
+            },
+            
+        })
+    </script>
+</body>
+
+</html>
