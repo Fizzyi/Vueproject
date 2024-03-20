@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="footer_wrap">
-      <a href="#/find">发现音乐</a>
-      <a href="#/my">我的音乐</a>
-      <a href="#/friend">朋友</a>
+      <router-link to="/find">发现音乐</router-link>
+      <router-link to="/my">我的音乐</router-link>
+      <router-link to="/friend">朋友</router-link>
     </div>
     <div class="top">
       <router-view></router-view>
@@ -20,6 +20,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .footer_wrap {
   position: relative;
   left: 0;
@@ -30,6 +31,7 @@ body {
   background-color: #333;
   color: #ccc;
 }
+
 .footer_wrap a {
   flex: 1;
   text-decoration: none;
@@ -38,6 +40,9 @@ body {
   background-color: #333;
   color: #ccc;
   border: 1px solid black;
+}
+.footer_wrap a.router-link-active {
+  background-color: pink;
 }
 .footer_wrap a:hover {
   background-color: #555;

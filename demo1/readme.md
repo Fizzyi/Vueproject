@@ -183,3 +183,18 @@ new Vue({
 
 页面组件 页面展示-配合路由使用 放在 src/views文件夹
 复用组件 展示数据-常用于复用 放在 src/components文件夹
+
+
+# router-link
+vue-router提供的全局组件，用于替换a标签
+
+必须传入to属性，指定路由路径值
+```js
+<router-link to="路径值"></router-link> 
+
+
+.footer_wrap a.router-link-active {
+  background-color: pink;
+}
+```
+能跳转，能高亮（自带激活时的类名）
