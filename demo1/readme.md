@@ -258,3 +258,18 @@ router-link-exact-active: 精确匹配 to="/my" 只能匹配 /my
     （1） 先给path命名：{ name:"路由名",path: "/friend/:words?", component: Friend },  
 
     （2） 跳转this.$router.push({"name":"路由名"})
+
+
+# 组件缓存 keep-alive
+是vue的内置组件，当它包裹动态组件时，会缓存不活动的组件实例，而不是销毁。
+自身不会渲染成一个DOM元素，也不会出现在父组件中。
+在组件切换过程中 把切换出去的组件保留在内存中，防止重复渲染DOM。
+减少加载时间及性能消耗，提高用户体验性。
+## 三个属性
+- include：组件名 数组，只有匹配的组件才会被缓存
+- exclude：组件名 数组，任何匹配的组件都不会被缓存
+- max：最多可以缓存多少组件实例
+
+## 两个声明周期函数
+- activated : 当组件被激活时的时候触发
+- deactivated ： 当组件不被使用的时候出发
