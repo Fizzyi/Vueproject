@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import SonOne from './components/ SonOne.vue';
+import SonOne from './components/SonOne.vue';
 import SonTwo from './components/SonTwo.vue';
 
 export default {
@@ -17,6 +17,9 @@ export default {
   components: {
     SonOne,
     SonTwo
+  },
+  created() {
+    console.log("测试", this.$store)
   }
 }
 </script>

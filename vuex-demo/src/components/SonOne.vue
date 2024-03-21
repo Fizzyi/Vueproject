@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <h2>Son2 子组件</h2>
+        <h2>Son1 子组件</h2>
         从vuex中获取的值：<label></label>
         <br>
         <button>值 + 1</button>
