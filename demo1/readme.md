@@ -185,7 +185,7 @@ new Vue({
 复用组件 展示数据-常用于复用 放在 src/components文件夹
 
 
-# router-link
+# router-link 声明式导航
 vue-router提供的全局组件，用于替换a标签
 
 必须传入to属性，指定路由路径值
@@ -196,5 +196,65 @@ vue-router提供的全局组件，用于替换a标签
 .footer_wrap a.router-link-active {
   background-color: pink;
 }
+
 ```
 能跳转，能高亮（自带激活时的类名）
+
+router-link-active: 模糊匹配（比较多） to="/my" 可以匹配 /my /my/a /my/b
+router-link-exact-active: 精确匹配 to="/my" 只能匹配 /my
+
+## 跳转传参
+1. 查询参数传参（多个参数）
+
+    语法格式： to="/path?参数名=值"
+
+
+    接收传递过来的值：
+    
+    在html中获取通过{{ \$route.query.参数名 }}，
+    
+    在js中获取通过 this.$route.query.参数名
+2. 动态路由传参 （单个参数）
+   （1）配置动态路由
+   ```js
+    const router = new VueRouter({
+        routes: [
+            { path: "/find", component: Find },
+            { path: "/friend/:words?", component: Friend }, // 添加?代表参数可以不填写
+            { path: "/my", component: My },
+
+        ]
+    })
+   ```
+   (2)配置导航链接： to="/path/参数值"
+   (3)接收传递过来的值：$route.params.参数名 或者 this.$route.params.参数名（参数名为在路由中配置的 words）
+
+## 重定向
+
+语法：{ path:"匹配路径",redirect:"重定向路径"}
+
+
+```js
+    const router = new VueRouter({
+        routes: [
+            { path:"/", redirect: "/my"},
+            { path: "/find", component: Find },
+            { path: "/friend/:words?", component: Friend }, // 添加?代表参数可以不填写
+            { path: "/my", component: My },
+            {path:"*",component: NotFind} // 404 not find
+        ],
+        mode:"history"
+    })
+   ```
+
+## 基本跳转 
+1. path路径跳转
+
+   this.\$router.push("路由路径? 参数名1=参数值1&参数名2=参数值2")
+   this.\$router.push({path:'路由路径',query:{参数名1:参数值1,参数名2:参数值2}})
+
+2. name命名路由(适合path路径长的场景)
+   
+    （1） 先给path命名：{ name:"路由名",path: "/friend/:words?", component: Friend },  
+
+    （2） 跳转this.$router.push({"name":"路由名"})
