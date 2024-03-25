@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>根组件</h1>
-    <input type="text">
+    <input type="text" :value="$store.state.count" @input="handleInput">
     <SonOne></SonOne>
     <hr>
     <SonTwo></SonTwo>
@@ -20,6 +20,14 @@ export default {
   },
   created() {
     console.log("测试", this.$store)
+  },
+  methods: {
+    handleInput(e) {
+      // 1、获取实时输入框的值
+      const num = +e.target.value
+      console.log(num)
+      this.$store.commit('addCount',num)
+    }
   }
 }
 </script>
