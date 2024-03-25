@@ -1,6 +1,9 @@
 import Vue from 'vue'
 // 导入vuex
 import Vuex from 'vuex'
+import user from './modules/user'
+import setting from './modules/setting'
+
 // 初始化vuex
 Vue.use(Vuex)
 // 创建仓库
@@ -13,9 +16,13 @@ const store = new Vuex.Store(
         },
         strict: true,
         mutations: {
-            addCount(state,num) {
+            addCount(state, num) {
                 state.count += num
             }
+        },
+        modules: {
+            user,
+            setting
         }
     }
 )
