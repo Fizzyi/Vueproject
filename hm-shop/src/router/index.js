@@ -39,7 +39,7 @@ const router = new VueRouter({
   routes
 })
 
-// 全局前置守卫
+// 全局前置守卫 通常判断某些页面是否需要登录才能访问，未登录就跳转到指定页面
 const authUrl = ['/pay', '/myorder']
 router.beforeEach((to, from, next) => {
   // 1. to 往哪里去,from 从哪里来, next() 是否放行，如果next()调用,就是放行,next(路径)拦截到某个路径页面
