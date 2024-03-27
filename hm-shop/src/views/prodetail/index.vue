@@ -70,6 +70,7 @@
         <span>首页</span>
       </div>
       <div class="icon-cart">
+        <span v-if="cartTotal > 0" class=num> {{ cartTotal }}</span>
         <van-icon name="shopping-cart-o" />
         <span>购物车</span>
       </div>
@@ -97,7 +98,7 @@
             <CountBox v-model="addCount"></CountBox>
           </div>
           <div class="showbtn" v-if="detail.stock_total > 0">
-            <div class="btn" v-if="mode === 'cart'">加入购物车</div>
+            <div class="btn" v-if="mode === 'cart'" @click="addCart">加入购物车</div>
             <div class="btn now" v-if="mode === 'buyNow'">立刻购买</div>
           </div>
           <div class="btn-none" v-else>该商品已抢完</div>
@@ -112,6 +113,7 @@
 import { getProDetail, getProComments } from '@/api/product'
 import defaultImg from '@/assets/default-avatar.png'
 import CountBox from '@/components/CountBox.vue'
+import { addCart } from '@/api/cart'
 export default {
   name: 'ProDetail',
   data () {
@@ -147,6 +149,35 @@ export default {
     buyFn () {
       this.mode = 'buyNow'
       this.showPannel = true
+    },
+    async addCart () {
+      // 判断用户是否登录
+      if (!this.$store.getters.token) {
+        // 如果token不存在则弹出框
+        this.$dialog.confirm({
+          title: '温馨提示',
+          message: '需要进行登录',
+          confirmButtonText: '去登录', // 确认按钮显示文字 默认为 确认
+          cancelButtonText: '再逛逛' // 取消按钮显示文字 默认为 取消
+        })
+          .then(() => {
+            // 点击确认后执行的代码  replace 和 push 的区别 push是往历史记录里面加，replace是替换最后的，不会新增历史记录
+            this.$router.replace({
+              path: '/login',
+              query: {
+                backUrl: this.$route.fullPath
+              }
+            })
+          })
+          .catch(() => {}) // 点击取消后执行的代码
+      }
+      // 如果token存在则进行操作
+      console.log('进行加入购物车操作')
+      const { data } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
+      console.log('添加购物车返回的信息为' + data)
+      this.cartTotal = data.cartTotal
+      this.$toast('加入购物车成功')
+      this.showPannel = false
     }
   },
   computed: {
@@ -389,6 +420,23 @@ export default {
 
   .btn-none {
     background-color: #cccccc;
+  }
+}
+
+.footer .icon-cart {
+  position: relative;
+  padding: 0 6px;
+  .num {
+    z-index: 999;
+    position: absolute;
+    top: -2px;
+    right: 0;
+    min-width: 16px;
+    padding: 0 4px;
+    color: #fff;
+    text-align: center;
+    background-color: #ee0a24;
+    border-radius: 50%;
   }
 }
 </style>

@@ -86,9 +86,9 @@ export default {
       }
       const res = await codeLogin(this.mobile, this.msgCode) // 调用登录
       // 将登录信息保存到 vuex
-      this.$store.commit('user/setUserInfo', res)
+      this.$store.commit('user/setUserInfo', res.data)
       console.log(res)
-      this.$router.push('/')
+      this.$router.replace(this.$route.query.backUrl || '/') // 增加判断是否有回跳页面
       this.$toast('登录成功')
     },
     // 校验输入框内容

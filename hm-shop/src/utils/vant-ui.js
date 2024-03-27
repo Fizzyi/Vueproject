@@ -1,4 +1,4 @@
-import { Button, Switch, Tabbar, TabbarItem, NavBar, Toast, Search, Swipe, SwipeItem, Grid, GridItem, Icon, Lazyload, Rate, ActionSheet } from 'vant'
+import { Button, Switch, Tabbar, TabbarItem, NavBar, Toast, Search, Swipe, Checkbox, SwipeItem, Grid, GridItem, Icon, Lazyload, Rate, ActionSheet, Dialog } from 'vant'
 import Vue from 'vue'
 Vue.use(Toast)
 Vue.use(Button)
@@ -15,3 +15,5 @@ Vue.use(Icon)
 Vue.use(Lazyload)
 Vue.use(Rate)
 Vue.use(ActionSheet)
+Vue.use(Dialog)
+Vue.use(Checkbox)
