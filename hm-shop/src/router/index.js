@@ -43,11 +43,12 @@ const router = new VueRouter({
 const authUrl = ['/pay', '/myorder']
 router.beforeEach((to, from, next) => {
   // 1. to 往哪里去,from 从哪里来, next() 是否放行，如果next()调用,就是放行,next(路径)拦截到某个路径页面
-  const token = store.getters.token
   if (!authUrl.includes(to.path)) { // 如果不在 authUrl里面，则直接访问
     next()
     return
   }
+  const token = store.getters.token
+  console.log('获取到的token为' + token)
   if (token) {
     next()
   } else {

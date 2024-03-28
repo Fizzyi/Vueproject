@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state () {
     return {
-      userInfo: getInfo
+      userInfo: getInfo()
     }
   },
   mutations: {
@@ -13,5 +13,10 @@ export default {
       setInfo(obj)
     }
   },
-  actions: {}
+  actions: {
+    logout (context) {
+      context.commit('setUserInfo', {})
+      context.commit('cart/setCartList', [], { root: true })
+    }
+  }
 }
