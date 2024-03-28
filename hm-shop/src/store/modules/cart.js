@@ -9,6 +9,15 @@ export default {
   mutations: {
     setCartList (state, newList) {
       state.cartList = newList
+    },
+    toggleCheck (state, goodsId) {
+      const goods = state.cartList.find(item => item.goods_id === goodsId)
+      goods.isChecked = !goods.isChecked
+    },
+    toggleAllCheck (state, flag) {
+      state.cartList.forEach(item => {
+        item.isChecked = flag
+      })
     }
   },
   actions: {
@@ -39,6 +48,11 @@ export default {
     selPrice (state, getters) {
       return getters.selCartList.reduce((sum, item, index) => { return sum + item.goods_num * item.goods.goods_price_min }, 0).toFixed(2)
       // return getters.selCartList.reduce((sum, item, index) => { return sum + item.goods_num * item.goods.goods_price_min }, 0).toFixed(2)
+    },
+    // 购物车全选反选功能
+    isAllChecked (state) {
+      // every方法来判断每个元素是否具有isChecked属性并且该属性的值为true。 如果都满足这个条件，则函数返回true，否则返回false。
+      return state.cartList.every(item => item.isChecked)
     }
   }
 }

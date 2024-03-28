@@ -13,7 +13,7 @@
     <!-- 购物车列表 -->
     <div class="cart-list">
       <div class="cart-item" v-for="item in cartList" :key="item.goods_id">
-        <van-checkbox icon-size="18" :value="item.isChecked"></van-checkbox>
+        <van-checkbox icon-size="18" :value="item.isChecked" @click="toggleCheck(item.goods_id)"></van-checkbox>
         <div class="show" @click="$router.push(`/prodetail/${item.goods_id}`)">
           <img :src="item.goods.goods_image" alt="">
         </div>
@@ -33,7 +33,7 @@
 
     <div class="footer-fixed">
       <div class="all-check">
-        <van-checkbox icon-size="18"></van-checkbox>
+        <van-checkbox icon-size="18" :value="isAllChecked" @click="toggleAllCheck"></van-checkbox>
         全选
       </div>
 
@@ -55,7 +55,7 @@ export default {
   name: 'CartPage',
   computed: {
     ...mapState('cart', ['cartList']),
-    ...mapGetters('cart', ['cartTotal', 'selCartList', 'selCount', 'selPrice']),
+    ...mapGetters('cart', ['cartTotal', 'selCartList', 'selCount', 'selPrice', 'isAllChecked']),
     isLogin () {
       return this.$store.getters.token
     }
@@ -65,6 +65,14 @@ export default {
     if (this.isLogin) {
       this.$store.dispatch('cart/getCartAction')
       console.log(this.cartList)
+    }
+  },
+  methods: {
+    toggleCheck (goodsId) {
+      this.$store.commit('cart/toggleCheck', goodsId)
+    },
+    toggleAllCheck () {
+      this.$store.commit('cart/toggleAllCheck', !this.isAllChecked)
     }
   }
 }
