@@ -126,7 +126,8 @@ export default {
       mode: 'cart',
       showPannel: false,
       total: 0,
-      addCount: 1
+      addCount: 1,
+      cartTotal: 0
     }
   },
   components: {

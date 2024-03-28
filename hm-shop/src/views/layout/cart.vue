@@ -3,7 +3,7 @@
     <van-nav-bar title="购物车" fixed />
     <!-- 购物车开头 -->
     <div class="cart-title">
-      <span class="all">共<i>4</i>件商品</span>
+      <span class="all">共<i>{{ selCount }}</i>件商品</span>
       <span class="edit">
         <van-icon name="edit" />
         编辑
@@ -13,7 +13,7 @@
     <!-- 购物车列表 -->
     <div class="cart-list">
       <div class="cart-item" v-for="item in cartList" :key="item.goods_id">
-        <van-checkbox icon-size="18"  :value="item.isChecked"></van-checkbox>
+        <van-checkbox icon-size="18" :value="item.isChecked"></van-checkbox>
         <div class="show" @click="$router.push(`/prodetail/${item.goods_id}`)">
           <img :src="item.goods.goods_image" alt="">
         </div>
@@ -40,28 +40,31 @@
       <div class="all-total">
         <div class="price">
           <span>合计：</span>
-          <span>¥ <i class="totalPrice">99.99</i></span>
+          <span>¥ <i class="totalPrice">{{ selPrice }}</i></span>
         </div>
-        <div v-if="true" class="goPay">结算(5)</div>
-        <div v-else class="delete">删除</div>
+        <div v-if="true" class="goPay" :class="{ disabled: selCount === 0 }">结算({{ selCount }})</div>
+        <div v-else class="delete" :class="{ disabled: selCount === 0 }">删除{{ selCount }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'CartPage',
   computed: {
     ...mapState('cart', ['cartList']),
+    ...mapGetters('cart', ['cartTotal', 'selCartList', 'selCount', 'selPrice']),
     isLogin () {
       return this.$store.getters.token
     }
   },
   created () {
+    console.log(this.isLogin)
     if (this.isLogin) {
       this.$store.dispatch('cart/getCartAction')
+      console.log(this.cartList)
     }
   }
 }
